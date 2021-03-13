@@ -54,8 +54,7 @@ public class HashTable {
         if(entries[hash] != null) {
             HashEntry temp = entries[hash];
 
-            while(!temp.key.equals(key) && temp.next != null)           //ERROR 4: && temp.next != null para que no se bloquee si llega al final de un hashentry y no encuentra lo que busca
-                temp = temp.next;
+            temp = searchHashEntry(key, temp);
 
 //            return temp.value;
             if (temp.key.equals(key)) {                     //ERROR 6: que imprima solo si encuentra lo que busca
@@ -75,7 +74,7 @@ public class HashTable {
         int hash = getHash(key);
         if(entries[hash] != null) {
             HashEntry temp = entries[hash];
-            while (!temp.key.equals(key) && temp.next != null) temp = temp.next; //ERROR 4: && temp.next != null para que no se bloquee si llega al final de un hashentry y no encuentra lo que busca
+            temp = searchHashEntry(key, temp);
 
             if (temp.prev == null && temp.next != null) {   //ERROR 5: && temp.next != null añadido para borrar un nodo sin prev y con next
                 temp.next.prev = null;          //entries[hash] = null; en vez de borrar el nodo, cambiar el apuntador hacia la nada...           //esborrar element únic (no col·lissió)
@@ -90,6 +89,12 @@ public class HashTable {
                 ITEMS--;          //ERROR 2: añadida resta al contador cuando elimina nodo
             }
         }
+    }
+
+    private HashEntry searchHashEntry(String key, HashEntry temp) {
+        while (!temp.key.equals(key) && temp.next != null)
+            temp = temp.next; //ERROR 4: && temp.next != null para que no se bloquee si llega al final de un hashentry y no encuentra lo que busca
+        return temp;
     }
 
     private int getHash(String key) {
@@ -218,5 +223,4 @@ public class HashTable {
 
         return  foundKeys;
     }
-
 }
